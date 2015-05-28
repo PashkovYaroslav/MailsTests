@@ -45,21 +45,20 @@ public class StartMailPageYandex implements StartMailPage {
 
     public DraftMailPage goToDraftPage() {
         draftButton.click();
-        new WebDriverWait(driver, 15, 5000).until(ExpectedConditions.titleContains("Черновики"));
+        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Черновики"));
         return new DraftMailPageYandex(driver);
     }
 
     public LetterPage openNewLetterPage() {
-        new WebDriverWait(driver, 15, 5000).until(ExpectedConditions.titleContains("Входящие"));
+        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
         writeLetterButton.click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return new LetterPageYandex(driver);
     }
 
     public SentMailPage goToSentMailPage() {
-        new WebDriverWait(driver, 15, 5000).until(ExpectedConditions.titleContains("Входящие"));
+        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
         sentButton.click();
-        new WebDriverWait(driver, 15, 5000).until(ExpectedConditions.titleContains("Отправленные"));
+        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Отправленные"));
         return new SentMailPageYandex(driver);
     }
 

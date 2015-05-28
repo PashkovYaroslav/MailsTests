@@ -3,6 +3,7 @@ package com.epam.pashkov.pageobject.gmail.com;
 import com.epam.pashkov.pageobject.LetterPage;
 import com.epam.pashkov.pageobject.StartMailPage;
 import com.epam.pashkov.pageobject.constants.ConstantsGmail;
+import com.thoughtworks.selenium.SeleniumException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -85,12 +86,12 @@ public class LetterPageGmail implements LetterPage {
     }
 
     public void checkLetter(String recipient, String subject, String text){
-        if(this.getRecipient().equals("") && this.getTitle().equals("")){
+        try{
             Assert.assertTrue(this.getRecipient().equals(recipient));
             Assert.assertTrue(this.getTitle().equals(subject));
             Assert.assertTrue(this.getLetterText().equals(text));
         }
-        else{
+        catch(SeleniumException e){
             Assert.assertTrue(this.recipientUi.getText().equals(recipient));
             Assert.assertTrue(this.subjectUi.getText().equals(subject));
             Assert.assertTrue(this.getLetterText().equals(text));

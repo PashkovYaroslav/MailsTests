@@ -7,12 +7,15 @@ import com.epam.pashkov.pageobject.yandex.ru.LoginPageYandex;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,7 +32,14 @@ public class MailTest {
     private WebDriver selectBrowser(char browser) {
         switch (browser) {
             case 'F': {
-                return new FirefoxDriver();
+                String firebugPath = "lib/firebug-2.0.9-fx.xpi";
+                FirefoxProfile profile = new FirefoxProfile();
+                try {
+                    profile.addExtension(new File(firebugPath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return new FirefoxDriver(profile);
             }
             case 'C': {
                 System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
@@ -46,10 +56,12 @@ public class MailTest {
         }
         return new FirefoxDriver();
     }
+    //(dataProvider = "browserData")
+    //char browserFirstLetter
 
-    @Test(dataProvider = "browserData")
-    public void verifyIua(char browserFirstLetter) {
-        driver = selectBrowser(browserFirstLetter);
+    //@Test
+    public void verifyIua() {
+        driver = selectBrowser('C');
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         //Step 1
         LoginPage loginPage = new LoginPageIua(driver);
@@ -81,9 +93,10 @@ public class MailTest {
         driver.quit();
     }
 
-    @Test(dataProvider = "browserData")
-    public void verifyYandex(char browserFirstLetter) {
-        driver = selectBrowser(browserFirstLetter);
+    //@Test(dataProvider = "browserData")
+    //@Test
+    public void verifyYandex() {
+        driver = selectBrowser('C');
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         //Step 1
         LoginPage loginPage = new LoginPageYandex(driver);
@@ -115,9 +128,10 @@ public class MailTest {
         driver.quit();
     }
 
-    @Test(dataProvider = "browserData")
-    public void verifyGoogle(char browserFirstLetter) {
-        driver = selectBrowser(browserFirstLetter);
+    //@Test(dataProvider = "browserData")
+    @Test
+    public void verifyGoogle() {
+        driver = selectBrowser('C');
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         //Step 1
         LoginPage loginPage = new LoginPageGmail(driver);

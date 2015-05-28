@@ -47,9 +47,9 @@ public class StartMailPageIua implements StartMailPage {
     }
 
     public LetterPage openNewLetterPage() {
-        new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
+        //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         writeLetterButton.click();
-        new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
+        new WebDriverWait(driver, 15, 5000).withTimeout(15, TimeUnit.SECONDS);
         return new LetterPageIua(driver);
     }
 

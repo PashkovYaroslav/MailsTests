@@ -44,17 +44,14 @@ public class LetterPageYandex implements LetterPage {
     private WebElement successSendLetter;
 
     public String getTitle() {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return titleInput.getAttribute("value");
     }
 
     public String getRecipient() {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return recipientInput.getAttribute("value");
     }
 
     public String getLetterText() {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return textInput.getAttribute("value");
     }
 
@@ -71,20 +68,24 @@ public class LetterPageYandex implements LetterPage {
 
     public StartMailPage saveLetterToDraft() {
         saveLetterToDraftButton.click();
-        new WebDriverWait(driver, 25, 5000).until(ExpectedConditions.visibilityOf(saveLetterToDraftButtonPopup));
+        new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(saveLetterToDraftButtonPopup));
         saveLetterToDraftButtonPopup.click();
+        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
         return new StartMailPageYandex(driver);
     }
 
     public StartMailPage sendLetter() {
         sendLetterButton.click();
-        new WebDriverWait(driver, 25, 5000).until(ExpectedConditions.visibilityOf(successSendLetter));
+        new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(successSendLetter));
         driver.get(driver.getCurrentUrl().replace("#done","#inbox"));
         //new WebDriverWait(driver, 25, 5000).until(ExpectedConditions.titleContains("Входящие"));
         return new StartMailPageYandex(driver);
     }
 
     public void checkLetter(String recipient, String subject, String text){
+        String title1 = this.getTitle();
+        String title2 = this.getLetterText();
+        String title3 = this.getRecipient();
         Assert.assertTrue(this.getTitle().equals(subject));
         Assert.assertTrue(this.getLetterText().equals(text));
         Assert.assertTrue(this.getRecipient().equals(recipient));

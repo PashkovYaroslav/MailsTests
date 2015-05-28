@@ -27,5 +27,5 @@ public class ConstantsIua {
     public static final String DRAFT_BUTTON = "//ul[@class='list_underlined']/li[3]";
     public static final String SENT_BUTTON = "//ul[@class='list_underlined']/li[2]";
     public static final String CURRENT_ACCOUNT_TEXT = "//span[@class='sn_menu_title']";
-    public static final String WRITE_LETTER_BUTTON = "//p[@class='make_message']";
+    public static final String WRITE_LETTER_BUTTON = "//p[@class='make_message']/a";
 }
