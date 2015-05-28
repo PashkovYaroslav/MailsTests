@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by Yaroslav_Pashkov on 5/28/2015.
+ * Created by Yaroslav_Pashkov on 5/26/2015.
  */
 public class WebBrowserFactory {
     public static WebDriver getWebDriver(WebDriverEnum webDriverEnum) {
