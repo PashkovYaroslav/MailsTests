@@ -79,8 +79,8 @@ public class LetterPageGmail implements LetterPage {
 
     public StartMailPage sendLetter() {
         sendLetterButton.click();
-        new WebDriverWait(driver, 15, 8000);
-        //new WebDriverWait(driver, 15, 5000).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[text()='Письмо отправлено.']"))));
+        //new WebDriverWait(driver, 15, 8000);
+        new WebDriverWait(driver, 15, 500).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[text()='Письмо отправлено.']")));
 
         inboxButton.click();
         new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));

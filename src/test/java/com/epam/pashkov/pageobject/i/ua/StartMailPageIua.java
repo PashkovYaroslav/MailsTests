@@ -40,23 +40,23 @@ public class StartMailPageIua implements StartMailPage {
     }
 
     public DraftMailPage goToDraftPage() {
-        new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
+        //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         draftButton.click();
-        new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
+        //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         return new DraftMailPageIua(driver);
     }
 
     public LetterPage openNewLetterPage() {
         //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         writeLetterButton.click();
-        new WebDriverWait(driver, 15, 5000).withTimeout(15, TimeUnit.SECONDS);
+        //new WebDriverWait(driver, 15, 5000).withTimeout(15, TimeUnit.SECONDS);
         return new LetterPageIua(driver);
     }
 
     public SentMailPage goToSentMailPage() {
-        new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
+        //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         sentButton.click();
-        new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
+        //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         return new SentMailPageIua(driver);
     }
 
