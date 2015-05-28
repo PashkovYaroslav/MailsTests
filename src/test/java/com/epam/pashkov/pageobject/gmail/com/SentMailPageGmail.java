@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -28,11 +30,13 @@ public class SentMailPageGmail implements SentMailPage {
     }
 
     public String getLatestSentMail() {
-        return latestSentMail.getText();
+        //new WebDriverWait(driver, 15, 3000);
+        System.out.println("latestSentMail: "+latestSentMail.getAttribute("innerHTML"));
+        return latestSentMail.getAttribute("innerHTML");
     }
 
     public LoginPage goToLoginPage() {
-        return new LoginPageGmail(driver);
+        return new LoginPageGmail(driver,false);
     }
 
     public void checkContainsOfMessage(String recipient){

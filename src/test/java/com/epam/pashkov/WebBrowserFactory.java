@@ -17,14 +17,14 @@ public class WebBrowserFactory {
     public static WebDriver getWebDriver(WebDriverEnum webDriverEnum) {
         switch (webDriverEnum) {
             case FIREFOX: {
-                String firebugPath = "lib/firebug-2.0.9-fx.xpi";
+                /*String firebugPath = "lib/firebug-2.0.9-fx.xpi";
                 FirefoxProfile profile = new FirefoxProfile();
                 try {
                     profile.addExtension(new File(firebugPath));
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-                return new FirefoxDriver(profile);
+                }*/
+                return new FirefoxDriver();
             }
             case CHROME: {
                 System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");

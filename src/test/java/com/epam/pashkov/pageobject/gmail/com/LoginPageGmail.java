@@ -37,9 +37,11 @@ public class LoginPageGmail implements LoginPage {
     @FindBy(xpath = ConstantsGmail.LOGOUT_BUTTON_LOCATOR)
     private WebElement logoutButtonLocator;
 
-    public LoginPageGmail(WebDriver driver) {
+    public LoginPageGmail(WebDriver driver, boolean url) {
         this.driver = driver;
-        driver.get("http://gmail.com/");
+        if(url) {
+            driver.get("http://gmail.com/");
+        }
         PageFactory.initElements(driver, this);
     }
 
@@ -54,9 +56,9 @@ public class LoginPageGmail implements LoginPage {
 
     public LoginPage logout() {
         currentAccountText.click();
-        //new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.visibilityOf(loginButtonLocator));
+        new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(logoutButtonLocator));
         logoutButtonLocator.click();
-        return null;
+        return new LoginPageGmail(driver,true);
     }
 
 

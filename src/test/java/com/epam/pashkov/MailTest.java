@@ -5,6 +5,8 @@ import com.epam.pashkov.pageobject.gmail.com.LoginPageGmail;
 import com.epam.pashkov.pageobject.i.ua.LoginPageIua;
 import com.epam.pashkov.pageobject.yandex.ru.LoginPageYandex;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -15,10 +17,20 @@ import java.util.concurrent.TimeUnit;
 public class MailTest {
     WebDriver driver;
 
-    @Test
-    public void verifyIua() {
+    @BeforeTest
+    public void preconditions(){
         driver = WebBrowserFactory.getWebDriver(WebDriverEnum.CHROME);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+    }
+
+    @AfterTest
+    public void postconditions(){
+        driver.quit();
+    }
+
+    @Test
+    public void verifyIua() {
         //Step 1
         LoginPage loginPage = new LoginPageIua(driver);
         StartMailPage startMailPage = loginPage.login("pashyaro@i.ua", "12345qwerty");
@@ -46,13 +58,10 @@ public class MailTest {
         // Step 11
         loginPage = sentMailPage.goToLoginPage();
         loginPage.logout();
-        driver.quit();
     }
 
     @Test
     public void verifyYandex() {
-        driver = WebBrowserFactory.getWebDriver(WebDriverEnum.CHROME);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         //Step 1
         LoginPage loginPage = new LoginPageYandex(driver);
         StartMailPage startMailPage = loginPage.login("pashyaro@yandex.ru", "12345qwerty");
@@ -80,15 +89,12 @@ public class MailTest {
         // Step 11
         loginPage = sentMailPage.goToLoginPage();
         loginPage.logout();
-        driver.quit();
     }
 
     @Test
     public void verifyGoogle() {
-        driver = WebBrowserFactory.getWebDriver(WebDriverEnum.CHROME);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         //Step 1
-        LoginPage loginPage = new LoginPageGmail(driver);
+        LoginPage loginPage = new LoginPageGmail(driver,true);
         StartMailPage startMailPage = loginPage.login("pashyaro@gmail.com", "12345qwertysingle");
         //Step 2
         startMailPage.checkCurrentAccount("pashyaro@gmail.com");
@@ -114,6 +120,5 @@ public class MailTest {
         // Step 11
         loginPage = sentMailPage.goToLoginPage();
         loginPage.logout();
-        driver.quit();
     }
 }
