@@ -36,7 +36,6 @@ public class SentMailPageGmail implements SentMailPage {
     }
 
     public void checkContainsOfMessage(String recipient){
-        new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         Assert.assertTrue(this.getLatestSentMail().equals(recipient));
     }
 }

@@ -34,5 +34,5 @@ public class ConstantsGmail {
 
     // Old UI letter page
     public static final String RECIPIENT_UI = "//div[@tabindex='1']//span[@email]";
-    public static final String SUBJECT_UI = "//table[@cellpadding='0'][@role='presentation']//h2[@tabindex='-1'][@id]";
+    public static final String SUBJECT_UI = "//input[@name='subjectbox']";
 }

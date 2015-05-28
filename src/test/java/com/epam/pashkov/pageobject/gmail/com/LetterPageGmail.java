@@ -73,28 +73,27 @@ public class LetterPageGmail implements LetterPage {
 
     public StartMailPage saveLetterToDraft() {
         saveLetterToDraftButton.click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        new WebDriverWait(driver, 15, 5000);
         return new StartMailPageGmail(driver);
     }
 
     public StartMailPage sendLetter() {
         sendLetterButton.click();
-        new WebDriverWait(driver, 10, 10000).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[text()='Письмо отправлено.']"))));
+        new WebDriverWait(driver, 15, 8000);
+        //new WebDriverWait(driver, 15, 5000).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[text()='Письмо отправлено.']"))));
+
         inboxButton.click();
-        new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.titleContains("Входящие"));
+        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
+        new WebDriverWait(driver, 15, 6000);
         return new StartMailPageGmail(driver);
     }
 
     public void checkLetter(String recipient, String subject, String text){
-        try{
-            Assert.assertTrue(this.getRecipient().equals(recipient));
-            Assert.assertTrue(this.getTitle().equals(subject));
-            Assert.assertTrue(this.getLetterText().equals(text));
-        }
-        catch(SeleniumException e){
-            Assert.assertTrue(this.recipientUi.getText().equals(recipient));
-            Assert.assertTrue(this.subjectUi.getText().equals(subject));
-            Assert.assertTrue(this.getLetterText().equals(text));
-        }
+        /*Assert.assertTrue(this.getRecipient().equals(recipient));
+        Assert.assertTrue(this.getTitle().equals(subject));
+        Assert.assertTrue(this.getLetterText().equals(text));*/
+        Assert.assertTrue(this.recipientUi.getText().equals(recipient));
+        Assert.assertTrue(this.subjectUi.getAttribute("value").equals(subject));
+        Assert.assertTrue(this.getLetterText().equals(text));
     }
 }
