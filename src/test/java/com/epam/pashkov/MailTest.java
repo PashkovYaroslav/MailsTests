@@ -56,10 +56,10 @@ public class MailTest {
         }
         return new FirefoxDriver();
     }
-    //(dataProvider = "browserData")
-    //char browserFirstLetter
 
-    //@Test
+    //@Test(dataProvider = "browserData")
+    //char browserFirstLetter
+    @Test
     public void verifyIua() {
         driver = selectBrowser('C');
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -94,7 +94,8 @@ public class MailTest {
     }
 
     //@Test(dataProvider = "browserData")
-    //@Test
+    //char browserFirstLetter
+    @Test
     public void verifyYandex() {
         driver = selectBrowser('C');
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -129,6 +130,7 @@ public class MailTest {
     }
 
     //@Test(dataProvider = "browserData")
+    //char browserFirstLetter
     @Test
     public void verifyGoogle() {
         driver = selectBrowser('C');
@@ -149,9 +151,6 @@ public class MailTest {
         draftMailPage.checkContainsOfMessage(true);
         // Step 7
         letterPage = draftMailPage.openLatestLetter();
-        String s1 = letterPage.getRecipient();
-        String s2 = letterPage.getLetterText();
-        String s3 = letterPage.getTitle();
         letterPage.checkLetter("Ярослав Пашков", "TestGmail", "Text of message");
         // Step 8
         startMailPage = letterPage.sendLetter();
