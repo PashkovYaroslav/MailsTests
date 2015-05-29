@@ -9,6 +9,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,12 +17,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class MailTest {
     WebDriver driver;
+    ResourceBundle credentials;
 
     @BeforeTest
     public void preconditions(){
         driver = WebBrowserFactory.getWebDriver(WebDriverEnum.CHROME);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
+        credentials = ResourceBundle.getBundle("credentials");
     }
 
     @AfterTest
@@ -31,11 +34,13 @@ public class MailTest {
 
     @Test
     public void verifyIua() {
+        String login = credentials.getString("i.ua.login");
+        String password = credentials.getString("i.ua.password");
         //Step 1
         LoginPage loginPage = new LoginPageIua(driver);
-        StartMailPage startMailPage = loginPage.login("pashyaro@i.ua", "12345qwerty");
+        StartMailPage startMailPage = loginPage.login(login, password);
         //Step 2
-        startMailPage.checkCurrentAccount("pashyaro@i.ua");
+        startMailPage.checkCurrentAccount(login);
         // Step 3
         LetterPage letterPage = startMailPage.openNewLetterPage();
         // Step 4
@@ -62,11 +67,13 @@ public class MailTest {
 
     @Test
     public void verifyYandex() {
+        String login = credentials.getString("yandex.ru.login");
+        String password = credentials.getString("yandex.ru.password");
         //Step 1
         LoginPage loginPage = new LoginPageYandex(driver);
-        StartMailPage startMailPage = loginPage.login("pashyaro@yandex.ru", "12345qwerty");
+        StartMailPage startMailPage = loginPage.login(login, password);
         //Step 2
-        startMailPage.checkCurrentAccount("pashyaro@yandex.ru");
+        startMailPage.checkCurrentAccount(login);
         // Step 3
         LetterPage letterPage = startMailPage.openNewLetterPage();
         // Step 4
@@ -93,11 +100,13 @@ public class MailTest {
 
     @Test
     public void verifyGoogle() {
+        String login = credentials.getString("gmail.com.login");
+        String password = credentials.getString("gmail.com.password");
         //Step 1
         LoginPage loginPage = new LoginPageGmail(driver,true);
-        StartMailPage startMailPage = loginPage.login("pashyaro@gmail.com", "12345qwertysingle");
+        StartMailPage startMailPage = loginPage.login(login, password);
         //Step 2
-        startMailPage.checkCurrentAccount("pashyaro@gmail.com");
+        startMailPage.checkCurrentAccount(login);
         // Step 3
         LetterPage letterPage = startMailPage.openNewLetterPage();
         // Step 4
