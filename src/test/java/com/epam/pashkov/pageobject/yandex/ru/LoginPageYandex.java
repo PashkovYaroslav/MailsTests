@@ -1,54 +1,53 @@
 package com.epam.pashkov.pageobject.yandex.ru;
 
-import com.epam.pashkov.pageobject.LoginPage;
-import com.epam.pashkov.pageobject.StartMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsYandex;
-import org.openqa.selenium.By;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ResourceBundle;
 
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class LoginPageYandex implements LoginPage {
-    private WebDriver driver;
+public class LoginPageYandex extends AbstractPage {
 
-    @FindBy(xpath = ConstantsYandex.USER_NAME_LOCATOR)
+    public static final String USER_NAME_LOCATOR = ".//input[@name='login']";
+    public static final String PASSWORD_LOCATOR = "//input[@name='passwd']";
+    public static final String LOGIN_BUTTON_LOCATOR = "//div[@class='auth__button']/button";
+    public static final String PRE_LOGOUT_BUTTON = "(//span[@class='user__name'])[1]";
+    public static final String LOGOUT_BUTTON_LOCATOR = "//div[@class='userlist__links']/a";
+
+    @FindBy(xpath = USER_NAME_LOCATOR)
     private WebElement userNameLocator;
 
-    @FindBy(xpath = ConstantsYandex.PASSWORD_LOCATOR)
+    @FindBy(xpath = PASSWORD_LOCATOR)
     private WebElement passwordLocator;
 
-    @FindBy(xpath = ConstantsYandex.LOGIN_BUTTON_LOCATOR)
+    @FindBy(xpath = LOGIN_BUTTON_LOCATOR)
     private WebElement loginButtonLocator;
 
-    @FindBy(xpath = ConstantsYandex.PRE_LOGOUT_BUTTON)
+    @FindBy(xpath = PRE_LOGOUT_BUTTON)
     private WebElement preLogoutButton;
 
-    @FindBy(xpath = ConstantsYandex.LOGOUT_BUTTON_LOCATOR)
+    @FindBy(xpath = LOGOUT_BUTTON_LOCATOR)
     private WebElement logoutButtonLocator;
 
     public LoginPageYandex(WebDriver driver) {
-        this.driver = driver;
-        driver.get("http://www.yandex.ua/");
-        PageFactory.initElements(driver, this);
+        super(driver);
+        driver.get(ResourceBundle.getBundle("credentials").getString("yandex.ua.url"));
     }
 
-    public StartMailPage login(String userName, String password){
+    public StartMailPageYandex login(String userName, String password){
         userNameLocator.sendKeys(userName);
         passwordLocator.sendKeys(password);
         loginButtonLocator.click();
         return new StartMailPageYandex(driver);
     }
 
-    public LoginPage logout() {
+    public LoginPageYandex logout() {
         preLogoutButton.click();
         new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.visibilityOf(logoutButtonLocator));
         logoutButtonLocator.click();

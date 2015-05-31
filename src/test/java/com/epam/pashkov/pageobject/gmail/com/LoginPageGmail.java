@@ -1,9 +1,6 @@
 package com.epam.pashkov.pageobject.gmail.com;
 
-import com.epam.pashkov.pageobject.LoginPage;
-import com.epam.pashkov.pageobject.StartMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsGmail;
-import com.epam.pashkov.pageobject.constants.ConstantsYandex;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,41 +8,45 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ResourceBundle;
 
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class LoginPageGmail implements LoginPage {
-    private WebDriver driver;
+public class LoginPageGmail extends AbstractPage {
 
-    @FindBy(xpath = ConstantsGmail.USER_NAME_LOCATOR)
+    public static final String USER_NAME_LOCATOR = ".//input[@id='Email']";
+    public static final String NEXT_BUTTON = ".//input[@id='next']";
+    public static final String PASSWORD_LOCATOR = ".//*[@id='Passwd']";
+    public static final String LOGIN_BUTTON_LOCATOR = ".//*[@id='signIn']";
+    public static final String LOGOUT_BUTTON_LOCATOR = "//a[contains(text(),'Выйти')]";
+    public static final String CURRENT_ACCOUNT_TEXT = ".//*[@id='gb']//a[contains(@class,'gb_ga') and contains(@title,'Аккаунт')]";
+
+
+    @FindBy(xpath = USER_NAME_LOCATOR)
     private WebElement userNameLocator;
 
-    @FindBy(xpath = ConstantsGmail.CURRENT_ACCOUNT_TEXT)
+    @FindBy(xpath = CURRENT_ACCOUNT_TEXT)
     private WebElement currentAccountText;
 
-    @FindBy(xpath = ConstantsGmail.NEXT_BUTTON)
+    @FindBy(xpath = NEXT_BUTTON)
     private WebElement nextButton;
 
-    @FindBy(xpath = ConstantsGmail.PASSWORD_LOCATOR)
+    @FindBy(xpath = PASSWORD_LOCATOR)
     private WebElement passwordLocator;
 
-    @FindBy(xpath = ConstantsGmail.LOGIN_BUTTON_LOCATOR)
+    @FindBy(xpath = LOGIN_BUTTON_LOCATOR)
     private WebElement loginButtonLocator;
 
-    @FindBy(xpath = ConstantsGmail.LOGOUT_BUTTON_LOCATOR)
+    @FindBy(xpath = LOGOUT_BUTTON_LOCATOR)
     private WebElement logoutButtonLocator;
 
-    public LoginPageGmail(WebDriver driver, boolean url) {
-        this.driver = driver;
-        if(url) {
-            driver.get("http://gmail.com/");
-        }
-        PageFactory.initElements(driver, this);
+    public LoginPageGmail(WebDriver driver) {
+        super(driver);
+        driver.get(ResourceBundle.getBundle("credentials").getString("gmail.com.url"));
     }
 
-    public StartMailPage login(String userName, String password){
+    public StartMailPageGmail login(String userName, String password){
         userNameLocator.sendKeys(userName);
         nextButton.click();
         //new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.visibilityOf(passwordLocator));
@@ -54,11 +55,10 @@ public class LoginPageGmail implements LoginPage {
         return new StartMailPageGmail(driver);
     }
 
-    public LoginPage logout() {
+    public void logout() {
         currentAccountText.click();
         new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(logoutButtonLocator));
         logoutButtonLocator.click();
-        return new LoginPageGmail(driver,true);
     }
 
 

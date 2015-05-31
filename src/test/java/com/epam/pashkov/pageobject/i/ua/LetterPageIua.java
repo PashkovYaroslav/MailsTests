@@ -1,35 +1,36 @@
 package com.epam.pashkov.pageobject.i.ua;
 
-import com.epam.pashkov.pageobject.LetterPage;
-import com.epam.pashkov.pageobject.StartMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsIua;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class LetterPageIua implements LetterPage {
-    private WebDriver driver;
+public class LetterPageIua extends AbstractPage {
 
-    @FindBy(xpath = ConstantsIua.TITLE_INPUT)
+    public static final String TITLE_INPUT = "//input[@name='subject']";
+    public static final String RECIPIENT_INPUT = ".//*[@id='to']";
+    public static final String TEXT_INPUT = ".//*[@id='text']";
+    public static final String SAVE_LETTER_TO_DRAFT_BUTTON = "//p[@class='send_container']/input[@name='save_in_drafts']";
+    public static final String SEND_LETTER_BUTTON = "(//input[@name='send'])[1]";
+
+    @FindBy(xpath = TITLE_INPUT)
     private WebElement titleInput;
 
-    @FindBy(xpath = ConstantsIua.RECIPIENT_INPUT)
+    @FindBy(xpath = RECIPIENT_INPUT)
     private WebElement recipientInput;
 
-    @FindBy(xpath = ConstantsIua.TEXT_INPUT)
+    @FindBy(xpath = TEXT_INPUT)
     private WebElement textInput;
 
-    @FindBy(xpath = ConstantsIua.SAVE_LETTER_TO_DRAFT_BUTTON)
+    @FindBy(xpath = SAVE_LETTER_TO_DRAFT_BUTTON)
     private WebElement saveLetterToDraftButton;
 
-    @FindBy(xpath = ConstantsIua.SEND_LETTER_BUTTON)
+    @FindBy(xpath = SEND_LETTER_BUTTON)
     private WebElement sendLetterButton;
 
     public String getTitle() {
@@ -45,8 +46,7 @@ public class LetterPageIua implements LetterPage {
     }
 
     public LetterPageIua(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     public void createLetter(String title, String recipient, String text) {
@@ -55,12 +55,12 @@ public class LetterPageIua implements LetterPage {
         textInput.sendKeys(text);
     }
 
-    public StartMailPage saveLetterToDraft() {
+    public StartMailPageIua saveLetterToDraft() {
         saveLetterToDraftButton.click();
         return new StartMailPageIua(driver);
     }
 
-    public StartMailPage sendLetter() {
+    public StartMailPageIua sendLetter() {
         sendLetterButton.click();
         return new StartMailPageIua(driver);
     }

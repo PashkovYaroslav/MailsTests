@@ -1,49 +1,53 @@
 package com.epam.pashkov.pageobject.yandex.ru;
 
-import com.epam.pashkov.pageobject.LetterPage;
-import com.epam.pashkov.pageobject.StartMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsYandex;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class LetterPageYandex implements LetterPage {
-    private WebDriver driver;
+public class LetterPageYandex extends AbstractPage {
 
-    @FindBy(xpath = ConstantsYandex.TITLE_INPUT)
+    public static final String INBOX_BUTTON = "//div[@class='b-folders__i']/div[1]/span[2]/a";
+    public static final String TITLE_INPUT = "//*[@id='compose-subj']";
+    public static final String RECIPIENT_INPUT = "(//div[contains(@class,'b-mail-input_yabbles')]//input[contains(@class,'b-yabble__input')])";
+    public static final String TEXT_INPUT = "//*[@id='compose-send']";
+    public static final String SAVE_LETTER_TO_DRAFT_BUTTON = "(//button[contains(@id,'nb')])[4]";
+    public static final String SAVE_LETTER_TO_DRAFT_BUTTON_POPUP = "//div[@class='b-popup__confirm']/button[1]";
+    public static final String SEND_LETTER_BUTTON = "(//button[contains(@id,'nb')])[1]";
+    public static final String SUCCESS_SEND_LETTER = "//span[contains(text(),'Письмо успешно')]";
+
+    @FindBy(xpath = TITLE_INPUT)
     private WebElement titleInput;
 
-    @FindBy(xpath = ConstantsYandex.RECIPIENT_INPUT)
+    @FindBy(xpath = RECIPIENT_INPUT)
     private WebElement recipientInput;
 
-    @FindBy(xpath = ConstantsYandex.TEXT_INPUT)
+    @FindBy(xpath = TEXT_INPUT)
     private WebElement textInput;
 
-    @FindBy(xpath = ConstantsYandex.SAVE_LETTER_TO_DRAFT_BUTTON)
+    @FindBy(xpath = SAVE_LETTER_TO_DRAFT_BUTTON)
     private WebElement saveLetterToDraftButton;
 
-    @FindBy(xpath = ConstantsYandex.SAVE_LETTER_TO_DRAFT_BUTTON_POPUP)
+    @FindBy(xpath = SAVE_LETTER_TO_DRAFT_BUTTON_POPUP)
     private WebElement saveLetterToDraftButtonPopup;
 
-    @FindBy(xpath = ConstantsYandex.SEND_LETTER_BUTTON)
+    @FindBy(xpath = SEND_LETTER_BUTTON)
     private WebElement sendLetterButton;
 
-    @FindBy(xpath = ConstantsYandex.INBOX_BUTTON)
+    @FindBy(xpath = INBOX_BUTTON)
     private  WebElement inboxButton;
 
-    @FindBy(xpath = ConstantsYandex.SUCCESS_SEND_LETTER)
+    @FindBy(xpath = SUCCESS_SEND_LETTER)
     private WebElement successSendLetter;
 
     public String getTitle() {
+        new WebDriverWait(driver, 5).until(ExpectedConditions.elementToBeClickable(titleInput));
         return titleInput.getAttribute("value");
     }
 
@@ -56,8 +60,7 @@ public class LetterPageYandex implements LetterPage {
     }
 
     public LetterPageYandex(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     public void createLetter(String title, String recipient, String text) {
@@ -66,7 +69,7 @@ public class LetterPageYandex implements LetterPage {
         textInput.sendKeys(text);
     }
 
-    public StartMailPage saveLetterToDraft() {
+    public StartMailPageYandex saveLetterToDraft() {
         saveLetterToDraftButton.click();
         new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(saveLetterToDraftButtonPopup));
         saveLetterToDraftButtonPopup.click();
@@ -74,7 +77,7 @@ public class LetterPageYandex implements LetterPage {
         return new StartMailPageYandex(driver);
     }
 
-    public StartMailPage sendLetter() {
+    public StartMailPageYandex sendLetter() {
         sendLetterButton.click();
         new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(successSendLetter));
         driver.get(driver.getCurrentUrl().replace("#done","#inbox"));
@@ -83,9 +86,6 @@ public class LetterPageYandex implements LetterPage {
     }
 
     public void checkLetter(String recipient, String subject, String text){
-        String title1 = this.getTitle();
-        String title2 = this.getLetterText();
-        String title3 = this.getRecipient();
         Assert.assertTrue(this.getTitle().equals(subject));
         Assert.assertTrue(this.getLetterText().equals(text));
         Assert.assertTrue(this.getRecipient().equals(recipient));

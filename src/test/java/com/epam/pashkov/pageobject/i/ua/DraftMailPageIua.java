@@ -1,35 +1,29 @@
 package com.epam.pashkov.pageobject.i.ua;
 
-import com.epam.pashkov.pageobject.DraftMailPage;
-import com.epam.pashkov.pageobject.LetterPage;
-import com.epam.pashkov.pageobject.StartMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsIua;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class DraftMailPageIua implements DraftMailPage {
-    private WebDriver driver;
+public class DraftMailPageIua extends AbstractPage {
 
-    @FindBy(xpath = ConstantsIua.LATEST_MESSAGE)
+    public static final String LATEST_MESSAGE = ".//*[@id='mesgList']//a/span[2]";
+
+    @FindBy(xpath = LATEST_MESSAGE)
     private WebElement latestMessage;
 
     public DraftMailPageIua(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     public boolean getLatestLetter() {
         try {
-            driver.findElement(By.xpath(ConstantsIua.LATEST_MESSAGE));
+            driver.findElement(By.xpath(LATEST_MESSAGE));
         }
         catch (Exception e)
         {
@@ -38,12 +32,12 @@ public class DraftMailPageIua implements DraftMailPage {
         return true;
     }
 
-    public LetterPage openLatestLetter() {
+    public LetterPageIua openLatestLetter() {
         latestMessage.click();
         return new LetterPageIua(driver);
     }
 
-    public StartMailPage openStartMailPage() {
+    public StartMailPageIua openStartMailPage() {
         return new StartMailPageIua(driver);
     }
 

@@ -1,42 +1,32 @@
 package com.epam.pashkov.pageobject.gmail.com;
 
-import com.epam.pashkov.pageobject.LoginPage;
-import com.epam.pashkov.pageobject.SentMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsGmail;
-import com.epam.pashkov.pageobject.constants.ConstantsYandex;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class SentMailPageGmail implements SentMailPage {
-    private WebDriver driver;
+public class SentMailPageGmail extends AbstractPage {
 
-    @FindBy(xpath = ConstantsGmail.LATEST_SENT_MAIL)
+    public static final String LATEST_SENT_MAIL = "(//tr[@aria-labelledby]/td[4]//span[@name])[7]";
+
+    @FindBy(xpath = LATEST_SENT_MAIL)
     private WebElement latestSentMail;
 
     public SentMailPageGmail(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     public String getLatestSentMail() {
-        //new WebDriverWait(driver, 15, 3000);
-        System.out.println("latestSentMail: "+latestSentMail.getAttribute("innerHTML"));
         return latestSentMail.getAttribute("innerHTML");
     }
 
-    public LoginPage goToLoginPage() {
-        return new LoginPageGmail(driver,false);
+    public LoginPageGmail goToLoginPage() {
+        return new LoginPageGmail(driver);
     }
 
     public void checkContainsOfMessage(String recipient){

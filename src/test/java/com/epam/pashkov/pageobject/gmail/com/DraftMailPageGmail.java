@@ -1,10 +1,6 @@
 package com.epam.pashkov.pageobject.gmail.com;
 
-import com.epam.pashkov.pageobject.DraftMailPage;
-import com.epam.pashkov.pageobject.LetterPage;
-import com.epam.pashkov.pageobject.StartMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsGmail;
-import com.epam.pashkov.pageobject.constants.ConstantsYandex;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,24 +15,25 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class DraftMailPageGmail implements DraftMailPage {
-    private WebDriver driver;
+public class DraftMailPageGmail extends AbstractPage {
 
-    @FindBy(xpath = ConstantsGmail.LATEST_MESSAGE)
+    public static final String LATEST_MESSAGE = "(//td[@tabindex='-1']/div[@role='link']//span[1])[2]";
+    public static final String INBOX_BUTTON = "//a[contains(text(),'Входящие')]";
+
+    @FindBy(xpath = LATEST_MESSAGE)
     private WebElement latestMessage;
 
-    @FindBy(xpath = ConstantsGmail.INBOX_BUTTON)
+    @FindBy(xpath = INBOX_BUTTON)
     private WebElement inboxButton;
 
     public DraftMailPageGmail(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     public boolean getLatestLetter() {
         try {
-            new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
-            driver.findElement(By.xpath(ConstantsGmail.LATEST_MESSAGE));
+            new WebDriverWait(driver, 5).withTimeout(5, TimeUnit.SECONDS);
+            driver.findElement(By.xpath(LATEST_MESSAGE));
         }
         catch (Exception e)
         {
@@ -45,14 +42,14 @@ public class DraftMailPageGmail implements DraftMailPage {
         return true;
     }
 
-    public LetterPage openLatestLetter() {
+    public LetterPageGmail openLatestLetter() {
         new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         latestMessage.click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return new LetterPageGmail(driver);
     }
 
-    public StartMailPage openStartMailPage() {
+    public StartMailPageGmail openStartMailPage() {
         inboxButton.click();
         new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.titleContains("Входящие"));
         return new StartMailPageGmail(driver);

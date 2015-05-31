@@ -1,49 +1,49 @@
 package com.epam.pashkov.pageobject.i.ua;
 
-import com.epam.pashkov.pageobject.LoginPage;
-import com.epam.pashkov.pageobject.StartMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsIua;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ResourceBundle;
 
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class LoginPageIua implements LoginPage {
-    private WebDriver driver;
+public class LoginPageIua extends AbstractPage {
 
-    @FindBy(xpath = ConstantsIua.USER_NAME_LOCATOR)
+    public static final String USER_NAME_LOCATOR = "//*[@name='login']";
+    public static final String PASSWORD_LOCATOR = "//*[@name='pass']";
+    public static final String LOGIN_BUTTON_LOCATOR = "//form/p/input";
+    public static final String LOGOUT_BUTTON_LOCATOR = "//ul[@class='user_menu']/li[@class='right']/a";
+
+    @FindBy(xpath = USER_NAME_LOCATOR)
     private WebElement userNameLocator;
 
-    @FindBy(xpath = ConstantsIua.PASSWORD_LOCATOR)
+    @FindBy(xpath = PASSWORD_LOCATOR)
     private WebElement passwordLocator;
 
-    @FindBy(xpath = ConstantsIua.LOGIN_BUTTON_LOCATOR)
+    @FindBy(xpath = LOGIN_BUTTON_LOCATOR)
     private WebElement loginButtonLocator;
 
-    @FindBy(xpath = ConstantsIua.LOGOUT_BUTTON_LOCATOR)
+    @FindBy(xpath = LOGOUT_BUTTON_LOCATOR)
     private WebElement logoutButtonLocator;
 
     public LoginPageIua(WebDriver driver) {
-        this.driver = driver;
-        driver.get("http://www.i.ua/");
-        PageFactory.initElements(driver, this);
+        super(driver);
+        driver.get(ResourceBundle.getBundle("credentials").getString("i.ua.url"));
     }
 
-    public StartMailPage login(String userName, String password){
+    public StartMailPageIua login(String userName, String password){
         userNameLocator.sendKeys(userName);
         passwordLocator.sendKeys(password);
         loginButtonLocator.click();
         return new StartMailPageIua(driver);
     }
 
-    public LoginPage logout() {
+    public void logout() {
         logoutButtonLocator.click();
-        return new LoginPageIua(driver);
     }
 
 

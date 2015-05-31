@@ -1,61 +1,56 @@
 package com.epam.pashkov.pageobject.yandex.ru;
 
-import com.epam.pashkov.pageobject.DraftMailPage;
-import com.epam.pashkov.pageobject.LetterPage;
-import com.epam.pashkov.pageobject.SentMailPage;
-import com.epam.pashkov.pageobject.StartMailPage;
-import com.epam.pashkov.pageobject.constants.ConstantsYandex;
-import org.openqa.selenium.By;
+import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class StartMailPageYandex implements StartMailPage {
-    private WebDriver driver;
+public class StartMailPageYandex extends AbstractPage {
 
-    @FindBy(xpath = ConstantsYandex.DRAFT_BUTTON)
+    public static final String DRAFT_BUTTON = "//div[@class='b-folders__i']/div[5]/span[2]/a";
+    public static final String SENT_BUTTON = "//div[@class='b-folders__i']/div[2]/span[2]/a";
+    public static final String CURRENT_ACCOUNT_TEXT = "(//*[contains(@id,'nb')])[1]/span[1]";
+    public static final String WRITE_LETTER_BUTTON = "//div[contains(@class,'b-toolbar__block_chevron')]//img[contains(@class,'b-ico_compose')]";
+
+    @FindBy(xpath = DRAFT_BUTTON)
     private WebElement draftButton;
 
-    @FindBy(xpath = ConstantsYandex.SENT_BUTTON)
+    @FindBy(xpath = SENT_BUTTON)
     private WebElement sentButton;
 
-    @FindBy(xpath = ConstantsYandex.CURRENT_ACCOUNT_TEXT)
+    @FindBy(xpath = CURRENT_ACCOUNT_TEXT)
     private WebElement currentAccountText;
 
-    @FindBy(xpath = ConstantsYandex.WRITE_LETTER_BUTTON)
+    @FindBy(xpath = WRITE_LETTER_BUTTON)
     private WebElement writeLetterButton;
 
     public StartMailPageYandex(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     public String getCurrentAccount(){
         return currentAccountText.getText();
     }
 
-    public DraftMailPage goToDraftPage() {
+    public DraftMailPageYandex goToDraftPage() {
         draftButton.click();
         new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Черновики"));
         return new DraftMailPageYandex(driver);
     }
 
-    public LetterPage openNewLetterPage() {
+    public LetterPageYandex openNewLetterPage() {
         new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
         writeLetterButton.click();
         return new LetterPageYandex(driver);
     }
 
-    public SentMailPage goToSentMailPage() {
+    public SentMailPageYandex goToSentMailPage() {
         new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
         sentButton.click();
         new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Отправленные"));
