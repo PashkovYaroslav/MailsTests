@@ -33,7 +33,7 @@ public class MailTest {
         driver.quit();
     }
 
-    //@Test
+    @Test
     public void verifyIua() {
         String login = credentials.getString("i.ua.login");
         String password = credentials.getString("i.ua.password");
@@ -68,7 +68,7 @@ public class MailTest {
         loginPage.logout();
     }
 
-    //@Test
+    @Test
     public void verifyYandex() {
         String login = credentials.getString("yandex.ru.login");
         String password = credentials.getString("yandex.ru.password");
