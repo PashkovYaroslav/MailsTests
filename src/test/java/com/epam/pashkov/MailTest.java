@@ -22,7 +22,7 @@ public class MailTest {
 
     @BeforeTest
     public void preconditions(){
-        driver = WebBrowserFactory.getWebDriver(WebDriverEnum.CHROME);
+        driver = WebBrowserFactory.getWebDriver(WebDriverEnum.FIREFOX);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         credentials = ResourceBundle.getBundle("credentials");
@@ -33,7 +33,7 @@ public class MailTest {
         driver.quit();
     }
 
-    @Test
+    //@Test
     public void verifyIua() {
         String login = credentials.getString("i.ua.login");
         String password = credentials.getString("i.ua.password");
@@ -103,7 +103,7 @@ public class MailTest {
         loginPage.logout();
     }
 
-    //@Test
+    @Test
     public void verifyGoogle() {
         String login = credentials.getString("gmail.com.login");
         String password = credentials.getString("gmail.com.password");

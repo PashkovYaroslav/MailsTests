@@ -42,9 +42,10 @@ public class DraftMailPageYandex extends AbstractPage {
     }
 
     public LetterPageYandex openLatestLetter() {
-        new WebDriverWait(driver, 5).withTimeout(5,TimeUnit.SECONDS);
+        new WebDriverWait(driver, 5).until(ExpectedConditions.titleContains("Черновики"));
         latestMessage.click();
         new WebDriverWait(driver, 5).until(ExpectedConditions.titleContains("Сохраненное"));
+
         return new LetterPageYandex(driver);
     }
 
@@ -52,14 +53,5 @@ public class DraftMailPageYandex extends AbstractPage {
         inboxButton.click();
         new WebDriverWait(driver, 5).until(ExpectedConditions.titleContains("Входящие"));
         return new StartMailPageYandex(driver);
-    }
-
-    public void checkContainsOfMessage(boolean expected){
-        if(expected) {
-            Assert.assertTrue(this.getLatestLetter());
-        }
-        else{
-            Assert.assertFalse(this.getLatestLetter());
-        }
     }
 }

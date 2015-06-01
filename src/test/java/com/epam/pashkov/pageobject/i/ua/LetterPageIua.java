@@ -64,10 +64,4 @@ public class LetterPageIua extends AbstractPage {
         sendLetterButton.click();
         return new StartMailPageIua(driver);
     }
-
-    public void checkLetter(String recipient, String subject, String text){
-        Assert.assertTrue(this.getTitle().equals(subject));
-        Assert.assertTrue(this.getLetterText().equals(text));
-        Assert.assertTrue(this.getRecipient().equals(recipient));
-    }
 }

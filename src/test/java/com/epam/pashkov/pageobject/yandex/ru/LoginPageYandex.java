@@ -37,7 +37,7 @@ public class LoginPageYandex extends AbstractPage {
 
     public LoginPageYandex(WebDriver driver) {
         super(driver);
-        driver.get(ResourceBundle.getBundle("credentials").getString("yandex.ua.url"));
+        driver.get(ResourceBundle.getBundle("credentials").getString("yandex.ru.url"));
     }
 
     public StartMailPageYandex login(String userName, String password){

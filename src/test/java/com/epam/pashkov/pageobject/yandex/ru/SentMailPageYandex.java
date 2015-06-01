@@ -27,8 +27,4 @@ public class SentMailPageYandex extends AbstractPage {
     public LoginPageYandex goToLoginPage() {
         return new LoginPageYandex(driver);
     }
-
-    public void checkContainsOfMessage(String recipient){
-        Assert.assertTrue(this.getLatestSentMail().equals(recipient));
-    }
 }

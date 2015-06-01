@@ -28,8 +28,4 @@ public class SentMailPageIua extends AbstractPage {
     public LoginPageIua goToLoginPage() {
         return new LoginPageIua(driver);
     }
-
-    public void checkContainsOfMessage(String recipient){
-        Assert.assertTrue(this.getLatestSentMail().equals(recipient));
-    }
 }

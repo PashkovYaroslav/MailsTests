@@ -49,7 +49,6 @@ public class LoginPageGmail extends AbstractPage {
     public StartMailPageGmail login(String userName, String password){
         userNameLocator.sendKeys(userName);
         nextButton.click();
-        //new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.visibilityOf(passwordLocator));
         passwordLocator.sendKeys(password);
         loginButtonLocator.click();
         return new StartMailPageGmail(driver);

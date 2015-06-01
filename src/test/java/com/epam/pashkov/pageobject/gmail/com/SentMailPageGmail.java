@@ -28,8 +28,4 @@ public class SentMailPageGmail extends AbstractPage {
     public LoginPageGmail goToLoginPage() {
         return new LoginPageGmail(driver);
     }
-
-    public void checkContainsOfMessage(String recipient){
-        Assert.assertTrue(this.getLatestSentMail().equals(recipient));
-    }
 }

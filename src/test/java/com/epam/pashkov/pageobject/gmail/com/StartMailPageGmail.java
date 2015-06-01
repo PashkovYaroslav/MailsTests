@@ -5,10 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +41,7 @@ public class StartMailPageGmail extends AbstractPage {
     }
 
     public DraftMailPageGmail goToDraftPage() {
+        new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(draftButton));
         draftButton.click();
         new WebDriverWait(driver, 5).until(ExpectedConditions.titleContains("Черновики"));
         return new DraftMailPageGmail(driver);
@@ -60,9 +59,5 @@ public class StartMailPageGmail extends AbstractPage {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.titleContains("Отправленные"));
         return new SentMailPageGmail(driver);
-    }
-
-    public void checkCurrentAccount(String account){
-        Assert.assertTrue(this.getCurrentAccount().equals(account));
     }
 }

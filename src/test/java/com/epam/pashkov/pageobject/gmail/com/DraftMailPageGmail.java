@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DraftMailPageGmail extends AbstractPage {
 
-    public static final String LATEST_MESSAGE = "(//td[@tabindex='-1']/div[@role='link']//span[1])[2]";
+    public static final String LATEST_MESSAGE = "(//td[@tabindex='-1']/div[@role='link']//span[1])[4]";
     public static final String INBOX_BUTTON = "//a[contains(text(),'Входящие')]";
 
     @FindBy(xpath = LATEST_MESSAGE)
@@ -43,9 +43,8 @@ public class DraftMailPageGmail extends AbstractPage {
     }
 
     public LetterPageGmail openLatestLetter() {
-        new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
+        new WebDriverWait(driver, 15, 3000).until(ExpectedConditions.elementToBeClickable(latestMessage));
         latestMessage.click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return new LetterPageGmail(driver);
     }
 
@@ -53,18 +52,5 @@ public class DraftMailPageGmail extends AbstractPage {
         inboxButton.click();
         new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.titleContains("Входящие"));
         return new StartMailPageGmail(driver);
-    }
-
-    public void checkContainsOfMessage(boolean expected){
-        try {
-            if (expected) {
-                Assert.assertTrue(this.getLatestLetter());
-            } else {
-                Assert.assertFalse(this.getLatestLetter());
-            }
-        }
-        catch (AssertionError e){
-            System.out.println("Some drafts found.");
-        }
     }
 }

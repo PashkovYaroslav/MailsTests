@@ -82,16 +82,9 @@ public class LetterPageGmail extends AbstractPage {
 
     public StartMailPageGmail sendLetter() {
         sendLetterButton.click();
-        //new WebDriverWait(driver, 15, 500).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[text()='Письмо отправлено.']"))));
         new WebDriverWait(driver, 15, 5000).withTimeout(15, TimeUnit.SECONDS);
         inboxButton.click();
         new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
         return new StartMailPageGmail(driver);
-    }
-
-    public void checkLetter(String recipient, String subject, String text){
-        Assert.assertTrue(this.recipientUi.getText().equals(recipient));
-        Assert.assertTrue(this.subjectUi.getAttribute("value").equals(subject));
-        Assert.assertTrue(this.getLetterText().equals(text));
     }
 }

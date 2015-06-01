@@ -1,6 +1,7 @@
 package com.epam.pashkov.pageobject.yandex.ru;
 
 import com.epam.pashkov.pageobject.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -47,7 +48,8 @@ public class LetterPageYandex extends AbstractPage {
     private WebElement successSendLetter;
 
     public String getTitle() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.elementToBeClickable(titleInput));
+        new WebDriverWait(driver, 15, 3000).until(ExpectedConditions.elementToBeClickable(By.xpath(TITLE_INPUT)));
+        System.out.println("Title of the Letter: "+titleInput.getAttribute("value"));
         return titleInput.getAttribute("value");
     }
 
@@ -81,13 +83,6 @@ public class LetterPageYandex extends AbstractPage {
         sendLetterButton.click();
         new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(successSendLetter));
         driver.get(driver.getCurrentUrl().replace("#done","#inbox"));
-        //new WebDriverWait(driver, 25, 5000).until(ExpectedConditions.titleContains("Входящие"));
         return new StartMailPageYandex(driver);
-    }
-
-    public void checkLetter(String recipient, String subject, String text){
-        Assert.assertTrue(this.getTitle().equals(subject));
-        Assert.assertTrue(this.getLetterText().equals(text));
-        Assert.assertTrue(this.getRecipient().equals(recipient));
     }
 }

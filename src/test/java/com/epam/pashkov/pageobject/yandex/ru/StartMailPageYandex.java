@@ -56,8 +56,4 @@ public class StartMailPageYandex extends AbstractPage {
         new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Отправленные"));
         return new SentMailPageYandex(driver);
     }
-
-    public void checkCurrentAccount(String account){
-        Assert.assertTrue(this.getCurrentAccount().equals(account));
-    }
 }

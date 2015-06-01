@@ -44,20 +44,12 @@ public class StartMailPageIua extends AbstractPage {
     }
 
     public LetterPageIua openNewLetterPage() {
-        //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         writeLetterButton.click();
-        //new WebDriverWait(driver, 15, 5000).withTimeout(15, TimeUnit.SECONDS);
         return new LetterPageIua(driver);
     }
 
     public SentMailPageIua goToSentMailPage() {
-        //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         sentButton.click();
-        //new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
         return new SentMailPageIua(driver);
-    }
-
-    public void checkCurrentAccount(String account){
-        Assert.assertTrue(this.getCurrentAccount().equals(account));
     }
 }

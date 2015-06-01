@@ -40,13 +40,4 @@ public class DraftMailPageIua extends AbstractPage {
     public StartMailPageIua openStartMailPage() {
         return new StartMailPageIua(driver);
     }
-
-    public void checkContainsOfMessage(boolean expected){
-        if(expected) {
-            Assert.assertTrue(this.getLatestLetter());
-        }
-        else{
-            Assert.assertFalse(this.getLatestLetter());
-        }
-    }
 }
