@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.gmail.com;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -56,7 +57,7 @@ public class LoginPageGmail extends AbstractPage {
 
     public void logout() {
         currentAccountText.click();
-        new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(logoutButtonLocator));
+        WaiterHelper.waitVisibilityOf(driver,logoutButtonLocator);
         logoutButtonLocator.click();
     }
 

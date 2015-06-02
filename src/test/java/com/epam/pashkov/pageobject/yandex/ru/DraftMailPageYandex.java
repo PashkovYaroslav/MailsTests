@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.yandex.ru;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -31,7 +32,7 @@ public class DraftMailPageYandex extends AbstractPage {
 
     public boolean getLatestLetter() {
         try {
-            new WebDriverWait(driver, 5, 5000).withTimeout(5, TimeUnit.SECONDS);
+            WaiterHelper.delay(3000);
             driver.findElement(By.xpath(LATEST_MESSAGE));
         }
         catch (Exception e)
@@ -42,16 +43,15 @@ public class DraftMailPageYandex extends AbstractPage {
     }
 
     public LetterPageYandex openLatestLetter() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.titleContains("Черновики"));
+        WaiterHelper.waitTitleContains(driver,"Черновики");
         latestMessage.click();
-        new WebDriverWait(driver, 5).until(ExpectedConditions.titleContains("Сохраненное"));
-
+        WaiterHelper.waitTitleContains(driver, "Сохраненное");
         return new LetterPageYandex(driver);
     }
 
     public StartMailPageYandex openStartMailPage() {
         inboxButton.click();
-        new WebDriverWait(driver, 5).until(ExpectedConditions.titleContains("Входящие"));
+        WaiterHelper.waitTitleContains(driver, "Входящие");
         return new StartMailPageYandex(driver);
     }
 }

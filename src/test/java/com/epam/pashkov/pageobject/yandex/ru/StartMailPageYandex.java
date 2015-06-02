@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.yandex.ru;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,20 +41,20 @@ public class StartMailPageYandex extends AbstractPage {
 
     public DraftMailPageYandex goToDraftPage() {
         draftButton.click();
-        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Черновики"));
+        WaiterHelper.waitTitleContains(driver,"Черновики");
         return new DraftMailPageYandex(driver);
     }
 
     public LetterPageYandex openNewLetterPage() {
-        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
+        WaiterHelper.waitTitleContains(driver,"Входящие");
         writeLetterButton.click();
         return new LetterPageYandex(driver);
     }
 
     public SentMailPageYandex goToSentMailPage() {
-        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
+        WaiterHelper.waitTitleContains(driver,"Входящие");
         sentButton.click();
-        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Отправленные"));
+        WaiterHelper.waitTitleContains(driver,"Отправленные");
         return new SentMailPageYandex(driver);
     }
 }

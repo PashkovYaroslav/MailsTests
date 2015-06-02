@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.yandex.ru;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -48,8 +49,9 @@ public class LetterPageYandex extends AbstractPage {
     private WebElement successSendLetter;
 
     public String getTitle() {
-        new WebDriverWait(driver, 15, 3000).until(ExpectedConditions.elementToBeClickable(By.xpath(TITLE_INPUT)));
-        System.out.println("Title of the Letter: "+titleInput.getAttribute("value"));
+        //new WebDriverWait(driver, 15, 3000).until(ExpectedConditions.elementToBeClickable(By.xpath(TITLE_INPUT)));
+        WaiterHelper.delay(3000);
+        //System.out.println("Title of the Letter: "+titleInput.getAttribute("value"));
         return titleInput.getAttribute("value");
     }
 
@@ -73,15 +75,15 @@ public class LetterPageYandex extends AbstractPage {
 
     public StartMailPageYandex saveLetterToDraft() {
         saveLetterToDraftButton.click();
-        new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(saveLetterToDraftButtonPopup));
+        WaiterHelper.waitVisibilityOf(driver, saveLetterToDraftButtonPopup);
         saveLetterToDraftButtonPopup.click();
-        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
+        WaiterHelper.waitTitleContains(driver, "Входящие");
         return new StartMailPageYandex(driver);
     }
 
     public StartMailPageYandex sendLetter() {
         sendLetterButton.click();
-        new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(successSendLetter));
+        WaiterHelper.waitVisibilityOf(driver, successSendLetter);
         driver.get(driver.getCurrentUrl().replace("#done","#inbox"));
         return new StartMailPageYandex(driver);
     }

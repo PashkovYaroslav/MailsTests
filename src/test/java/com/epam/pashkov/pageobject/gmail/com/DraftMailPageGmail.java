@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.gmail.com;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -32,7 +33,7 @@ public class DraftMailPageGmail extends AbstractPage {
 
     public boolean getLatestLetter() {
         try {
-            new WebDriverWait(driver, 5).withTimeout(5, TimeUnit.SECONDS);
+            WaiterHelper.delay(3000);
             driver.findElement(By.xpath(LATEST_MESSAGE));
         }
         catch (Exception e)
@@ -43,14 +44,14 @@ public class DraftMailPageGmail extends AbstractPage {
     }
 
     public LetterPageGmail openLatestLetter() {
-        new WebDriverWait(driver, 15, 3000).until(ExpectedConditions.elementToBeClickable(latestMessage));
+        WaiterHelper.delay(3000);
         latestMessage.click();
         return new LetterPageGmail(driver);
     }
 
     public StartMailPageGmail openStartMailPage() {
         inboxButton.click();
-        new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.titleContains("Входящие"));
+        WaiterHelper.waitTitleContains(driver,"Входящие");
         return new StartMailPageGmail(driver);
     }
 }

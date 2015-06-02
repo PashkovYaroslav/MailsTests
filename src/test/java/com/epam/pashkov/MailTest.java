@@ -22,7 +22,7 @@ public class MailTest {
 
     @BeforeTest
     public void preconditions(){
-        driver = WebBrowserFactory.getWebDriver(WebDriverEnum.FIREFOX);
+        driver = WebBrowserFactory.getWebDriver(WebDriverEnum.CHROME);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         credentials = ResourceBundle.getBundle("credentials");

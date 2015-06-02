@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.gmail.com;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -82,9 +83,9 @@ public class LetterPageGmail extends AbstractPage {
 
     public StartMailPageGmail sendLetter() {
         sendLetterButton.click();
-        new WebDriverWait(driver, 15, 5000).withTimeout(15, TimeUnit.SECONDS);
+        WaiterHelper.delay(3000);
         inboxButton.click();
-        new WebDriverWait(driver, 15).until(ExpectedConditions.titleContains("Входящие"));
+        WaiterHelper.waitTitleContains(driver,"Входящие");
         return new StartMailPageGmail(driver);
     }
 }

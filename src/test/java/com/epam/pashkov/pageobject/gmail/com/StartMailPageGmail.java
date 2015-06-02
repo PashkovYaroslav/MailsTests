@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.gmail.com;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -41,23 +42,24 @@ public class StartMailPageGmail extends AbstractPage {
     }
 
     public DraftMailPageGmail goToDraftPage() {
-        new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(draftButton));
+        WaiterHelper.delay(3000);
+        WaiterHelper.waitVisibilityOf(driver,draftButton);
         draftButton.click();
-        new WebDriverWait(driver, 5).until(ExpectedConditions.titleContains("Черновики"));
+        WaiterHelper.waitTitleContains(driver,"Черновики");
         return new DraftMailPageGmail(driver);
     }
 
     public LetterPageGmail openNewLetterPage() {
         writeLetterButton.click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WaiterHelper.delay(3000);
         return new LetterPageGmail(driver);
     }
 
     public SentMailPageGmail goToSentMailPage() {
-        new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.titleContains("Входящие"));
+        WaiterHelper.waitTitleContains(driver,"Входящие");
         sentButton.click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.titleContains("Отправленные"));
+        WaiterHelper.waitTitleContains(driver,"Отправленные");
         return new SentMailPageGmail(driver);
     }
 }

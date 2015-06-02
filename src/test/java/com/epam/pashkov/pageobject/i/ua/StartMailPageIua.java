@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.i.ua;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -38,7 +39,7 @@ public class StartMailPageIua extends AbstractPage {
     }
 
     public DraftMailPageIua goToDraftPage() {
-        new WebDriverWait(driver, 5, 500);
+        WaiterHelper.delay(3000);
         draftButton.click();
         return new DraftMailPageIua(driver);
     }

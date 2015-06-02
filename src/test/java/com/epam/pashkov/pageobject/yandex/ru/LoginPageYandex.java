@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.yandex.ru;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -49,7 +50,7 @@ public class LoginPageYandex extends AbstractPage {
 
     public LoginPageYandex logout() {
         preLogoutButton.click();
-        new WebDriverWait(driver, 5, 5000).until(ExpectedConditions.visibilityOf(logoutButtonLocator));
+        WaiterHelper.waitVisibilityOf(driver, logoutButtonLocator);
         logoutButtonLocator.click();
         return new LoginPageYandex(driver);
     }
