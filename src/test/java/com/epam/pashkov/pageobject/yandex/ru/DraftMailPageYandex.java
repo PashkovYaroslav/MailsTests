@@ -31,15 +31,6 @@ public class DraftMailPageYandex extends AbstractPage {
     }
 
     public boolean hasLatestLetter() {
-        /*try {
-            wait.delay(3000);
-            driver.findElement(By.xpath(DRAFT_MESSAGES));
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
-        return true;*/
         wait.delay(3000);
         for(int i = 0; i< draftMessages.size(); i++){
             if(draftMessages.get(i).getText().equals(MailTest.TITLE)){

@@ -33,14 +33,8 @@ public class WebBrowserFactory {
             }
 
             default:{
-                try {
                 throw new IllegalArgumentException("Incorrect browser name "+ webDriverName);
-                }
-                catch (IllegalArgumentException e)  {
-                    e.getMessage();
-                }
             }
         }
-        return null;
     }
 }

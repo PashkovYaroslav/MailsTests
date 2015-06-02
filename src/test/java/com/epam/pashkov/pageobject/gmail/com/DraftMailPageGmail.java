@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject.gmail.com;
 
+import com.epam.pashkov.MailTest;
 import com.epam.pashkov.helper.WaiterHelper;
 import com.epam.pashkov.pageobject.AbstractPage;
 import org.openqa.selenium.By;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
