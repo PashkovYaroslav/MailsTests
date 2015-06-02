@@ -23,6 +23,7 @@ public class LetterPageYandex extends AbstractPage {
     public static final String SAVE_LETTER_TO_DRAFT_BUTTON_POPUP = "//div[@class='b-popup__confirm']/button[1]";
     public static final String SEND_LETTER_BUTTON = "(//button[contains(@id,'nb')])[1]";
     public static final String SUCCESS_SEND_LETTER = "//span[contains(text(),'Письмо успешно')]";
+    public static final String INBOX_PAGE_TITLE = "Входящие";
 
     @FindBy(xpath = TITLE_INPUT)
     private WebElement titleInput;
@@ -49,9 +50,7 @@ public class LetterPageYandex extends AbstractPage {
     private WebElement successSendLetter;
 
     public String getTitle() {
-        //new WebDriverWait(driver, 15, 3000).until(ExpectedConditions.elementToBeClickable(By.xpath(TITLE_INPUT)));
         WaiterHelper.delay(3000);
-        //System.out.println("Title of the Letter: "+titleInput.getAttribute("value"));
         return titleInput.getAttribute("value");
     }
 
@@ -75,15 +74,15 @@ public class LetterPageYandex extends AbstractPage {
 
     public StartMailPageYandex saveLetterToDraft() {
         saveLetterToDraftButton.click();
-        WaiterHelper.waitVisibilityOf(driver, saveLetterToDraftButtonPopup);
+        wait.waitVisibilityOf(driver, saveLetterToDraftButtonPopup);
         saveLetterToDraftButtonPopup.click();
-        WaiterHelper.waitTitleContains(driver, "Входящие");
+        wait.waitTitleContains(driver, INBOX_PAGE_TITLE);
         return new StartMailPageYandex(driver);
     }
 
     public StartMailPageYandex sendLetter() {
         sendLetterButton.click();
-        WaiterHelper.waitVisibilityOf(driver, successSendLetter);
+        wait.waitVisibilityOf(driver, successSendLetter);
         driver.get(driver.getCurrentUrl().replace("#done","#inbox"));
         return new StartMailPageYandex(driver);
     }

@@ -1,140 +1,124 @@
 package com.epam.pashkov;
 
-import com.epam.pashkov.pageobject.*;
 import com.epam.pashkov.pageobject.gmail.com.*;
 import com.epam.pashkov.pageobject.i.ua.*;
 import com.epam.pashkov.pageobject.yandex.ru.*;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Yaroslav on 24.05.2015.
  */
-public class MailTest {
-    WebDriver driver;
-    ResourceBundle credentials;
+public class MailTest extends BaseTest {
 
-    @BeforeTest
-    public void preconditions(){
-        driver = WebBrowserFactory.getWebDriver(WebDriverEnum.CHROME);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
-        credentials = ResourceBundle.getBundle("credentials");
-    }
-
-    @AfterTest
-    public void postconditions(){
-        driver.quit();
-    }
+    public static final String TITLE = "TitleOfTestMessage";
+    public static final String RECIPIENT = "generalyaro@gmail.com";
+    public static final String TEXT_OF_MESSAGE = "Text of message";
+    public static final String RECIPIENT_YANDEX = "\"Ярослав Пашков\" <generalyaro@gmail.com>";
+    public static final String RECIPIENT_NAME = "Ярослав Пашков";
 
     @Test
     public void verifyIua() {
-        String login = credentials.getString("i.ua.login");
-        String password = credentials.getString("i.ua.password");
+        String login = config.getString("i.ua.login");
+        String password = config.getString("i.ua.password");
         //Step 1
         LoginPageIua loginPage = new LoginPageIua(driver);
         StartMailPageIua startMailPage = loginPage.login(login, password);
         //Step 2
-        Assert.assertTrue(startMailPage.getCurrentAccount().equals(login));
+        Assert.assertTrue(startMailPage.getCurrentAccount().equals(login), "Verify current login.");
         // Step 3
         LetterPageIua letterPage = startMailPage.openNewLetterPage();
         // Step 4
-        letterPage.createLetter("Test3", "generalyaro@gmail.com", "Text of message");
+        letterPage.createLetter(TITLE, RECIPIENT, TEXT_OF_MESSAGE);
         // Step 5
         startMailPage = letterPage.saveLetterToDraft();
         // Step 6
         DraftMailPageIua draftMailPage = startMailPage.goToDraftPage();
-        Assert.assertTrue(draftMailPage.getLatestLetter());
+        Assert.assertTrue(draftMailPage.hasLatestLetter(), "Verify that last letter present.");
         // Step 7
         letterPage = draftMailPage.openLatestLetter();
-        Assert.assertTrue(letterPage.getTitle().equals("Test3"));
-        Assert.assertTrue(letterPage.getLetterText().equals("Text of message"));
-        Assert.assertTrue(letterPage.getRecipient().equals("generalyaro@gmail.com"));
+        Assert.assertTrue(letterPage.getTitle().equals(TITLE), "Verify that letter title is equal to "+TITLE+".");
+        Assert.assertTrue(letterPage.getLetterText().equals(TEXT_OF_MESSAGE), "Verify that letter text is equal to "+TEXT_OF_MESSAGE+".");
+        Assert.assertTrue(letterPage.getRecipient().equals(RECIPIENT), "Verify that letter recipient is equal to "+RECIPIENT+".");
         // Step 8
         startMailPage = letterPage.sendLetter();
         // Step 9
-        Assert.assertFalse(startMailPage.goToDraftPage().getLatestLetter());
+        Assert.assertFalse(startMailPage.goToDraftPage().hasLatestLetter(), "Verify that last letter is absent.");
         // Step 10
         SentMailPageIua sentMailPage = draftMailPage.openStartMailPage().goToSentMailPage();
-        Assert.assertTrue(sentMailPage.getLatestSentMail().equals("generalyaro@gmail.com"));
+        Assert.assertTrue(sentMailPage.getLatestSentMail().equals(RECIPIENT), "Verify that last sent letter recipient is equal "+RECIPIENT+".");
         // Step 11
-        loginPage = sentMailPage.goToLoginPage();
-        loginPage.logout();
+        startMailPage = sentMailPage.goToStartPage();
+        startMailPage.logout();
     }
 
     @Test
     public void verifyYandex() {
-        String login = credentials.getString("yandex.ru.login");
-        String password = credentials.getString("yandex.ru.password");
+        String login = config.getString("yandex.ru.login");
+        String password = config.getString("yandex.ru.password");
         //Step 1
         LoginPageYandex loginPage = new LoginPageYandex(driver);
         StartMailPageYandex startMailPage = loginPage.login(login, password);
         //Step 2
-        Assert.assertTrue(startMailPage.getCurrentAccount().equals(login));
+        Assert.assertTrue(startMailPage.getCurrentAccount().equals(login), "Verify current login.");
         // Step 3
         LetterPageYandex letterPage = startMailPage.openNewLetterPage();
         // Step 4
-        letterPage.createLetter("TestYandex", "generalyaro@gmail.com", "Text of message");
+        letterPage.createLetter(TITLE, RECIPIENT, TEXT_OF_MESSAGE);
         // Step 5
         startMailPage = letterPage.saveLetterToDraft();
         // Step 6
         DraftMailPageYandex draftMailPage = startMailPage.goToDraftPage();
-        Assert.assertTrue(draftMailPage.getLatestLetter());
+        Assert.assertTrue(draftMailPage.hasLatestLetter(), "Verify that last letter present.");
         // Step 7
         letterPage = draftMailPage.openLatestLetter();
-        Assert.assertTrue(letterPage.getTitle().equals("TestYandex"));
-        Assert.assertTrue(letterPage.getLetterText().equals("Text of message"));
-        Assert.assertTrue(letterPage.getRecipient().equals("\"Ярослав Пашков\" <generalyaro@gmail.com>"));
+        Assert.assertTrue(letterPage.getTitle().equals(TITLE), "Verify that letter title is equal to "+TITLE+".");
+        Assert.assertTrue(letterPage.getLetterText().equals(TEXT_OF_MESSAGE), "Verify that letter text is equal to "+TEXT_OF_MESSAGE+".");
+        Assert.assertTrue(letterPage.getRecipient().equals(RECIPIENT_YANDEX), "Verify that letter recipient is equal to "+RECIPIENT_YANDEX+".");
         // Step 8
         startMailPage = letterPage.sendLetter();
         // Step 9
-        Assert.assertFalse(startMailPage.goToDraftPage().getLatestLetter());
+        Assert.assertFalse(startMailPage.goToDraftPage().hasLatestLetter(), "Verify that last letter is absent.");
         // Step 10
         SentMailPageYandex sentMailPage = draftMailPage.openStartMailPage().goToSentMailPage();
-        Assert.assertTrue(sentMailPage.getLatestSentMail().equals("Ярослав Пашков"));
+        Assert.assertTrue(sentMailPage.getLatestSentMail().equals(RECIPIENT_NAME), "Verify that last sent letter recipient is equal "+RECIPIENT_NAME+".");
         // Step 11
-        loginPage = sentMailPage.goToLoginPage();
-        loginPage.logout();
+        startMailPage = sentMailPage.goToStartPage();
+        startMailPage.logout();
     }
 
     @Test
     public void verifyGoogle() {
-        String login = credentials.getString("gmail.com.login");
-        String password = credentials.getString("gmail.com.password");
+        String login = config.getString("gmail.com.login");
+        String password = config.getString("gmail.com.password");
         //Step 1
         LoginPageGmail loginPage = new LoginPageGmail(driver);
         StartMailPageGmail startMailPage = loginPage.login(login, password);
         //Step 2
-        Assert.assertTrue(startMailPage.getCurrentAccount().equals(login));
+        Assert.assertTrue(startMailPage.getCurrentAccount().equals(login), "Verify current login.");
         // Step 3
         LetterPageGmail letterPage = startMailPage.openNewLetterPage();
         // Step 4
-        letterPage.createLetter("TestGmail", "generalyaro@gmail.com", "Text of message");
+        letterPage.createLetter(TITLE, RECIPIENT, TEXT_OF_MESSAGE);
         // Step 5
         startMailPage = letterPage.saveLetterToDraft();
         // Step 6
         DraftMailPageGmail draftMailPage = startMailPage.goToDraftPage();
-        Assert.assertTrue(draftMailPage.getLatestLetter());
+        Assert.assertTrue(draftMailPage.hasLatestLetter(), "Verify that last letter present.");
         // Step 7
         letterPage = draftMailPage.openLatestLetter();
-        Assert.assertTrue(letterPage.getTitle().equals("TestGmail"));
-        Assert.assertTrue(letterPage.getLetterText().equals("Text of message"));
-        Assert.assertTrue(letterPage.getRecipient().equals("Ярослав Пашков"));
+        Assert.assertTrue(letterPage.getTitle().equals(TITLE), "Verify that letter title is equal to "+TITLE+".");
+        Assert.assertTrue(letterPage.getLetterText().equals(TEXT_OF_MESSAGE), "Verify that letter text is equal to "+TEXT_OF_MESSAGE+".");
+        Assert.assertTrue(letterPage.getRecipient().equals(RECIPIENT_NAME),  "Verify that letter recipient is equal to "+RECIPIENT_NAME+".");
         // Step 8
         startMailPage = letterPage.sendLetter();
         // Step 9
-        Assert.assertFalse(startMailPage.goToDraftPage().getLatestLetter());
+        Assert.assertFalse(startMailPage.goToDraftPage().hasLatestLetter(), "Verify that last letter is absent.");
         // Step 10
         SentMailPageGmail sentMailPage = draftMailPage.openStartMailPage().goToSentMailPage();
-        Assert.assertTrue(sentMailPage.getLatestSentMail().equals("Ярослав Пашков"));
+        Assert.assertTrue(sentMailPage.getLatestSentMail().equals(RECIPIENT_NAME), "Verify that last sent letter recipient is equal "+RECIPIENT_NAME+".");
         // Step 11
-        loginPage = sentMailPage.goToLoginPage();
-        loginPage.logout();
+        startMailPage = sentMailPage.goToStartPage();
+        startMailPage.logout();
     }
 }

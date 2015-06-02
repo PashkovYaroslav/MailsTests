@@ -1,5 +1,6 @@
 package com.epam.pashkov.pageobject;
 
+import com.epam.pashkov.helper.WaiterHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.PageFactory;
  */
 public abstract class AbstractPage {
     protected WebDriver driver;
+    protected WaiterHelper wait = new WaiterHelper();
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;

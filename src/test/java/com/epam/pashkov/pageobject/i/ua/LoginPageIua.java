@@ -16,7 +16,6 @@ public class LoginPageIua extends AbstractPage {
     public static final String USER_NAME_LOCATOR = "//*[@name='login']";
     public static final String PASSWORD_LOCATOR = "//*[@name='pass']";
     public static final String LOGIN_BUTTON_LOCATOR = "//form/p/input";
-    public static final String LOGOUT_BUTTON_LOCATOR = "//ul[@class='user_menu']/li[@class='right']/a";
 
     @FindBy(xpath = USER_NAME_LOCATOR)
     private WebElement userNameLocator;
@@ -27,12 +26,9 @@ public class LoginPageIua extends AbstractPage {
     @FindBy(xpath = LOGIN_BUTTON_LOCATOR)
     private WebElement loginButtonLocator;
 
-    @FindBy(xpath = LOGOUT_BUTTON_LOCATOR)
-    private WebElement logoutButtonLocator;
-
     public LoginPageIua(WebDriver driver) {
         super(driver);
-        driver.get(ResourceBundle.getBundle("credentials").getString("i.ua.url"));
+        driver.get(ResourceBundle.getBundle("config").getString("i.ua.url"));
     }
 
     public StartMailPageIua login(String userName, String password){
@@ -41,10 +37,4 @@ public class LoginPageIua extends AbstractPage {
         loginButtonLocator.click();
         return new StartMailPageIua(driver);
     }
-
-    public void logout() {
-        logoutButtonLocator.click();
-    }
-
-
 }

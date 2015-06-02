@@ -20,6 +20,7 @@ public class DraftMailPageGmail extends AbstractPage {
 
     public static final String LATEST_MESSAGE = "(//td[@tabindex='-1']/div[@role='link']//span[1])[4]";
     public static final String INBOX_BUTTON = "//a[contains(text(),'Входящие')]";
+    public static final String INBOX_PAGE_TITLE = "Входящие";
 
     @FindBy(xpath = LATEST_MESSAGE)
     private WebElement latestMessage;
@@ -31,9 +32,9 @@ public class DraftMailPageGmail extends AbstractPage {
         super(driver);
     }
 
-    public boolean getLatestLetter() {
+    public boolean hasLatestLetter() {
         try {
-            WaiterHelper.delay(3000);
+            wait.delay(3000);
             driver.findElement(By.xpath(LATEST_MESSAGE));
         }
         catch (Exception e)
@@ -44,14 +45,14 @@ public class DraftMailPageGmail extends AbstractPage {
     }
 
     public LetterPageGmail openLatestLetter() {
-        WaiterHelper.delay(3000);
+        wait.delay(3000);
         latestMessage.click();
         return new LetterPageGmail(driver);
     }
 
     public StartMailPageGmail openStartMailPage() {
         inboxButton.click();
-        WaiterHelper.waitTitleContains(driver,"Входящие");
+        wait.waitTitleContains(driver, INBOX_PAGE_TITLE);
         return new StartMailPageGmail(driver);
     }
 }

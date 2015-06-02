@@ -24,7 +24,7 @@ public class SentMailPageYandex extends AbstractPage {
         return latestSentMail.getText();
     }
 
-    public LoginPageYandex goToLoginPage() {
-        return new LoginPageYandex(driver);
+    public StartMailPageYandex goToStartPage() {
+        return new StartMailPageYandex(driver);
     }
 }

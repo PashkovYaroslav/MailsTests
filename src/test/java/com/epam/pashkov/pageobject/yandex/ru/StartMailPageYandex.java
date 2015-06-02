@@ -18,6 +18,11 @@ public class StartMailPageYandex extends AbstractPage {
     public static final String SENT_BUTTON = "//div[@class='b-folders__i']/div[2]/span[2]/a";
     public static final String CURRENT_ACCOUNT_TEXT = "(//*[contains(@id,'nb')])[1]/span[1]";
     public static final String WRITE_LETTER_BUTTON = "//div[contains(@class,'b-toolbar__block_chevron')]//img[contains(@class,'b-ico_compose')]";
+    public static final String PRE_LOGOUT_BUTTON = "//span[@class='header-user-name js-header-user-name']";
+    public static final String LOGOUT_BUTTON_LOCATOR = "//a[text()='Выход']";
+    public static final String DRAFT_PAGE_TITLE = "Черновики";
+    public static final String INBOX_PAGE_TITLE = "Входящие";
+    public static final String SENT_PAGE_TITLE = "Отправленные";
 
     @FindBy(xpath = DRAFT_BUTTON)
     private WebElement draftButton;
@@ -31,6 +36,12 @@ public class StartMailPageYandex extends AbstractPage {
     @FindBy(xpath = WRITE_LETTER_BUTTON)
     private WebElement writeLetterButton;
 
+    @FindBy(xpath = PRE_LOGOUT_BUTTON)
+    private WebElement preLogoutButton;
+
+    @FindBy(xpath = LOGOUT_BUTTON_LOCATOR)
+    private WebElement logoutButtonLocator;
+
     public StartMailPageYandex(WebDriver driver) {
         super(driver);
     }
@@ -41,20 +52,26 @@ public class StartMailPageYandex extends AbstractPage {
 
     public DraftMailPageYandex goToDraftPage() {
         draftButton.click();
-        WaiterHelper.waitTitleContains(driver,"Черновики");
+        wait.waitTitleContains(driver, DRAFT_PAGE_TITLE);
         return new DraftMailPageYandex(driver);
     }
 
     public LetterPageYandex openNewLetterPage() {
-        WaiterHelper.waitTitleContains(driver,"Входящие");
+        wait.waitTitleContains(driver, INBOX_PAGE_TITLE);
         writeLetterButton.click();
         return new LetterPageYandex(driver);
     }
 
     public SentMailPageYandex goToSentMailPage() {
-        WaiterHelper.waitTitleContains(driver,"Входящие");
+        wait.waitTitleContains(driver,INBOX_PAGE_TITLE);
         sentButton.click();
-        WaiterHelper.waitTitleContains(driver,"Отправленные");
+        wait.waitTitleContains(driver, SENT_PAGE_TITLE);
         return new SentMailPageYandex(driver);
+    }
+
+    public void logout() {
+        preLogoutButton.click();
+        wait.waitVisibilityOf(driver, logoutButtonLocator);
+        logoutButtonLocator.click();
     }
 }

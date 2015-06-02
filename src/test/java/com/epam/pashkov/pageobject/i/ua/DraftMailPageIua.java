@@ -21,7 +21,7 @@ public class DraftMailPageIua extends AbstractPage {
         super(driver);
     }
 
-    public boolean getLatestLetter() {
+    public boolean hasLatestLetter() {
         try {
             driver.findElement(By.xpath(LATEST_MESSAGE));
         }

@@ -25,7 +25,7 @@ public class SentMailPageIua extends AbstractPage {
         return latestSentMail.getText();
     }
 
-    public LoginPageIua goToLoginPage() {
-        return new LoginPageIua(driver);
+    public StartMailPageIua goToStartPage() {
+        return new StartMailPageIua(driver);
     }
 }

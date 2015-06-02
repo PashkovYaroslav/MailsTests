@@ -18,8 +18,7 @@ public class LoginPageYandex extends AbstractPage {
     public static final String USER_NAME_LOCATOR = ".//input[@name='login']";
     public static final String PASSWORD_LOCATOR = "//input[@name='passwd']";
     public static final String LOGIN_BUTTON_LOCATOR = "//div[@class='auth__button']/button";
-    public static final String PRE_LOGOUT_BUTTON = "(//span[@class='user__name'])[1]";
-    public static final String LOGOUT_BUTTON_LOCATOR = "//div[@class='userlist__links']/a";
+
 
     @FindBy(xpath = USER_NAME_LOCATOR)
     private WebElement userNameLocator;
@@ -30,15 +29,9 @@ public class LoginPageYandex extends AbstractPage {
     @FindBy(xpath = LOGIN_BUTTON_LOCATOR)
     private WebElement loginButtonLocator;
 
-    @FindBy(xpath = PRE_LOGOUT_BUTTON)
-    private WebElement preLogoutButton;
-
-    @FindBy(xpath = LOGOUT_BUTTON_LOCATOR)
-    private WebElement logoutButtonLocator;
-
     public LoginPageYandex(WebDriver driver) {
         super(driver);
-        driver.get(ResourceBundle.getBundle("credentials").getString("yandex.ru.url"));
+        driver.get(ResourceBundle.getBundle("config").getString("yandex.ru.url"));
     }
 
     public StartMailPageYandex login(String userName, String password){
@@ -47,13 +40,4 @@ public class LoginPageYandex extends AbstractPage {
         loginButtonLocator.click();
         return new StartMailPageYandex(driver);
     }
-
-    public LoginPageYandex logout() {
-        preLogoutButton.click();
-        WaiterHelper.waitVisibilityOf(driver, logoutButtonLocator);
-        logoutButtonLocator.click();
-        return new LoginPageYandex(driver);
-    }
-
-
 }

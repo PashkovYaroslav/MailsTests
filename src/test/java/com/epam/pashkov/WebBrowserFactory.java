@@ -14,24 +14,33 @@ import java.io.IOException;
  * Created by Yaroslav_Pashkov on 5/26/2015.
  */
 public class WebBrowserFactory {
-    public static WebDriver getWebDriver(WebDriverEnum webDriverEnum) {
-        switch (webDriverEnum) {
-            case FIREFOX: {
+    public static WebDriver getWebDriver(String webDriverName) {
+        switch (webDriverName) {
+            case "Firefox": {
                 return new FirefoxDriver();
             }
-            case CHROME: {
+            case "Chrome": {
                 System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
                 return new ChromeDriver();
             }
-            case OPERA: {
+            case "Opera": {
                 System.setProperty("webdriver.opera.driver", "lib/operadriver.exe");
                 return new OperaDriver();
             }
-            case IE: {
+            case "IE": {
                 System.setProperty("webdriver.ie.driver", "lib/IEDriverServer.exe");
                 return new InternetExplorerDriver();
             }
+
+            default:{
+                try {
+                throw new IllegalArgumentException("Incorrect browser name "+ webDriverName);
+                }
+                catch (IllegalArgumentException e)  {
+                    e.getMessage();
+                }
+            }
         }
-        return new FirefoxDriver();
+        return null;
     }
 }

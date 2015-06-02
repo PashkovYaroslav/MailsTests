@@ -20,7 +20,6 @@ public class LoginPageGmail extends AbstractPage {
     public static final String NEXT_BUTTON = ".//input[@id='next']";
     public static final String PASSWORD_LOCATOR = ".//*[@id='Passwd']";
     public static final String LOGIN_BUTTON_LOCATOR = ".//*[@id='signIn']";
-    public static final String LOGOUT_BUTTON_LOCATOR = "//a[contains(text(),'Выйти')]";
     public static final String CURRENT_ACCOUNT_TEXT = ".//*[@id='gb']//a[contains(@class,'gb_ga') and contains(@title,'Аккаунт')]";
 
 
@@ -39,12 +38,9 @@ public class LoginPageGmail extends AbstractPage {
     @FindBy(xpath = LOGIN_BUTTON_LOCATOR)
     private WebElement loginButtonLocator;
 
-    @FindBy(xpath = LOGOUT_BUTTON_LOCATOR)
-    private WebElement logoutButtonLocator;
-
     public LoginPageGmail(WebDriver driver) {
         super(driver);
-        driver.get(ResourceBundle.getBundle("credentials").getString("gmail.com.url"));
+        driver.get(ResourceBundle.getBundle("config").getString("gmail.com.url"));
     }
 
     public StartMailPageGmail login(String userName, String password){
@@ -54,12 +50,4 @@ public class LoginPageGmail extends AbstractPage {
         loginButtonLocator.click();
         return new StartMailPageGmail(driver);
     }
-
-    public void logout() {
-        currentAccountText.click();
-        WaiterHelper.waitVisibilityOf(driver,logoutButtonLocator);
-        logoutButtonLocator.click();
-    }
-
-
 }

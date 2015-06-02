@@ -13,6 +13,7 @@ import org.testng.Assert;
 public class SentMailPageGmail extends AbstractPage {
 
     public static final String LATEST_SENT_MAIL = "(//tr[@aria-labelledby]/td[4]//span[@name])[7]";
+    public static final String INNER_HTML = "innerHTML";
 
     @FindBy(xpath = LATEST_SENT_MAIL)
     private WebElement latestSentMail;
@@ -22,10 +23,10 @@ public class SentMailPageGmail extends AbstractPage {
     }
 
     public String getLatestSentMail() {
-        return latestSentMail.getAttribute("innerHTML");
+        return latestSentMail.getAttribute(INNER_HTML);
     }
 
-    public LoginPageGmail goToLoginPage() {
-        return new LoginPageGmail(driver);
+    public StartMailPageGmail goToStartPage() {
+        return new StartMailPageGmail(driver);
     }
 }

@@ -26,6 +26,9 @@ public class LetterPageGmail extends AbstractPage {
     public static final String SEND_LETTER_BUTTON = "//div[text()='Отправить']";
     public static final String RECIPIENT_UI = "//div[@tabindex='1']//span[@email]";
     public static final String SUBJECT_UI = "//input[@name='subjectbox']";
+    public static final String INBOX_PAGE_TITLE = "Входящие";
+    public static final String VALUE = "value";
+    public static final String INNER_HTML = "innerHTML";
 
     @FindBy(xpath = TITLE_INPUT)
     private WebElement titleInput;
@@ -55,11 +58,11 @@ public class LetterPageGmail extends AbstractPage {
     private WebElement subjectUi;
 
     public String getTitle() {
-        return titleInput.getAttribute("value");
+        return titleInput.getAttribute(VALUE);
     }
 
     public String getRecipient() {
-        return recipientList.getAttribute("innerHTML");
+        return recipientList.getAttribute(INNER_HTML);
     }
 
     public String getLetterText() {
@@ -83,9 +86,9 @@ public class LetterPageGmail extends AbstractPage {
 
     public StartMailPageGmail sendLetter() {
         sendLetterButton.click();
-        WaiterHelper.delay(3000);
+        wait.delay(3000);
         inboxButton.click();
-        WaiterHelper.waitTitleContains(driver,"Входящие");
+        wait.waitTitleContains(driver, INBOX_PAGE_TITLE);
         return new StartMailPageGmail(driver);
     }
 }
