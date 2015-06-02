@@ -24,6 +24,7 @@ public class LetterPageYandex extends AbstractPage {
     public static final String SEND_LETTER_BUTTON = "(//button[contains(@id,'nb')])[1]";
     public static final String SUCCESS_SEND_LETTER = "//span[contains(text(),'Письмо успешно')]";
     public static final String INBOX_PAGE_TITLE = "Входящие";
+    public static final String VALUE = "value";
 
     @FindBy(xpath = TITLE_INPUT)
     private WebElement titleInput;
@@ -51,15 +52,15 @@ public class LetterPageYandex extends AbstractPage {
 
     public String getTitle() {
         WaiterHelper.delay(3000);
-        return titleInput.getAttribute("value");
+        return titleInput.getAttribute(VALUE);
     }
 
     public String getRecipient() {
-        return recipientInput.getAttribute("value");
+        return recipientInput.getAttribute(VALUE);
     }
 
     public String getLetterText() {
-        return textInput.getAttribute("value");
+        return textInput.getAttribute(VALUE);
     }
 
     public LetterPageYandex(WebDriver driver) {

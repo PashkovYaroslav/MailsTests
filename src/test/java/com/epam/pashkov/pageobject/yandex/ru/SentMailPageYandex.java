@@ -21,7 +21,9 @@ public class SentMailPageYandex extends AbstractPage {
     }
 
     public String getLatestSentMail() {
-        return latestSentMail.getText();
+        wait.delay(1000);
+        String s = latestSentMail.getAttribute("innerHTML");
+        return latestSentMail.getAttribute("innerHTML");
     }
 
     public StartMailPageYandex goToStartPage() {
